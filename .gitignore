@@ -1,4 +1,6 @@
 *.log
+*.env
+*.json
 .terraform/*
 terraform.tfvars
 terraform.tfstate.backup
