@@ -1,11 +1,11 @@
 """Extracting Plant data from respective API."""
-import requests
 import json
 import logging
 from pathlib import Path
 from datetime import datetime
 import threading
 import time
+import requests
 
 logging.basicConfig(
     level=logging.INFO,

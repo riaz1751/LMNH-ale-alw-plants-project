@@ -1,8 +1,8 @@
-import pytest
+"""Testing the extract script."""
 import json
 from pathlib import Path
 from unittest.mock import patch,  mock_open
-from extract import load_existing
+from extract import load_existing, fetch_one, fetch_updates
 
 
 def test_load_existing_valid_filepath():
@@ -21,7 +21,12 @@ def test_load_existing_valid_filepath():
 
 
 def test_load_existing_invalid_filepath():
+    """Testing non existent filepath."""
     with patch.object(Path, 'exists', return_value=False):
         result = load_existing()
     assert result == []
     assert len(result) == 0
+
+
+def test_fetch_one_1():
+    pass
