@@ -1,3 +1,4 @@
+"""Extracting Plant data from respective API."""
 import requests
 import json
 import logging
@@ -19,6 +20,7 @@ lock = threading.Lock()
 
 
 def load_existing() -> list[dict]:
+    """Loads all pre-existing plant data to a json file and starts fresh if file is corrupted."""
     if OUT_FILE.exists():
         try:
             with OUT_FILE.open("r", encoding="utf-8") as f:
@@ -29,6 +31,7 @@ def load_existing() -> list[dict]:
 
 
 def get_latest_timestamp(plants: list[dict]) -> datetime | None:
+    """Returns latest recorded timestamp to avoid duplicate data."""
     timestamps = []
     for p in plants:
         ts = p.get("recording_taken")
@@ -42,6 +45,7 @@ def get_latest_timestamp(plants: list[dict]) -> datetime | None:
 
 
 def fetch_one(plant_id: int, latest_ts: datetime) -> dict | None:
+    """Returns plant data as a dictionary from one API endpoint."""
     url = f"{BASE_URL}{plant_id}"
     try:
         resp = requests.get(url, timeout=10)
@@ -70,7 +74,7 @@ def fetch_one(plant_id: int, latest_ts: datetime) -> dict | None:
 
 
 def fetch_updates(latest_ts: datetime, max_id: int = 200, workers: int = 20) -> list[dict]:
-    """Fetch plants and keep only those with newer recording_taken."""
+    """Fetch plants data efficiently using threading."""
 
     new_records = []
 
