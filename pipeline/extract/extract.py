@@ -99,7 +99,8 @@ def fetch_updates(latest_ts: datetime, max_id: int = 200, workers: int = 20) -> 
     return new_record
 
 
-if __name__ == "__main__":
+def extract():
+    """Main block functions."""
     plants = load_existing()
     latest_ts = get_latest_timestamp(plants)
     logging.info(f"Latest known recording: {latest_ts}")
@@ -114,3 +115,7 @@ if __name__ == "__main__":
             f"Added {len(new_plants)} new/updated records. Total now {len(plants)}")
     else:
         logging.info("No new data found.")
+
+
+if __name__ == "__main__":
+    extract()
