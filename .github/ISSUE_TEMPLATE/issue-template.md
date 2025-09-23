@@ -13,4 +13,4 @@ assignees: ''
 
 # User Stories
 
-# Tme Estimation & Priority
+# Time Estimation & Priority
