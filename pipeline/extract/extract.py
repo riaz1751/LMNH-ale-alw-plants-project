@@ -1,10 +1,11 @@
-import requests
+"""Extracting Plant data from respective API."""
 import json
 import logging
 from pathlib import Path
 from datetime import datetime
 import threading
 import time
+import requests
 
 logging.basicConfig(
     level=logging.INFO,
@@ -19,6 +20,7 @@ lock = threading.Lock()
 
 
 def load_existing() -> list[dict]:
+    """Loads all pre-existing plant data to a json file and starts fresh if file is corrupted."""
     if OUT_FILE.exists():
         try:
             with OUT_FILE.open("r", encoding="utf-8") as f:
@@ -29,6 +31,7 @@ def load_existing() -> list[dict]:
 
 
 def get_latest_timestamp(plants: list[dict]) -> datetime | None:
+    """Returns latest recorded timestamp to avoid duplicate data."""
     timestamps = []
     for p in plants:
         ts = p.get("recording_taken")
@@ -42,6 +45,7 @@ def get_latest_timestamp(plants: list[dict]) -> datetime | None:
 
 
 def fetch_one(plant_id: int, latest_ts: datetime) -> dict | None:
+    """Returns plant data as a dictionary from one API endpoint."""
     url = f"{BASE_URL}{plant_id}"
     try:
         resp = requests.get(url, timeout=10)
@@ -70,7 +74,7 @@ def fetch_one(plant_id: int, latest_ts: datetime) -> dict | None:
 
 
 def fetch_updates(latest_ts: datetime, max_id: int = 200, workers: int = 20) -> list[dict]:
-    """Fetch plants and keep only those with newer recording_taken."""
+    """Fetch plants data efficiently using threading."""
 
     new_records = []
 
@@ -95,7 +99,8 @@ def fetch_updates(latest_ts: datetime, max_id: int = 200, workers: int = 20) -> 
     return new_record
 
 
-if __name__ == "__main__":
+def extract():
+    """Main block functions."""
     plants = load_existing()
     latest_ts = get_latest_timestamp(plants)
     logging.info(f"Latest known recording: {latest_ts}")
@@ -110,3 +115,7 @@ if __name__ == "__main__":
             f"Added {len(new_plants)} new/updated records. Total now {len(plants)}")
     else:
         logging.info("No new data found.")
+
+
+if __name__ == "__main__":
+    extract()
