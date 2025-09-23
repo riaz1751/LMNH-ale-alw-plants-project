@@ -127,4 +127,4 @@ def clean_valid_data():
 
 if __name__ == "__main__":
     data = clean_valid_data()
-    print(data)
+    print(data.head())
