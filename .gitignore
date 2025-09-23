@@ -1,5 +1,6 @@
 *.log
 .terraform/*
+.terraform*
 terraform.tfvars
 terraform.tfstate.backup
 
