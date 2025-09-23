@@ -50,6 +50,58 @@ resource "aws_ecr_repository" "c19-cran-summarise" {
 
 # GLUE DB & GLUE CRAWLER
 
+resource "aws_iam_role" "c19-cran-glue-role" {
+  name = "AWSGlueServiceRoleDefault"
+  assume_role_policy = <<EOF
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Action": "sts:AssumeRole",
+      "Principal": {
+        "Service": "glue.amazonaws.com"
+      },
+      "Effect": "Allow",
+      "Sid": ""
+    }
+  ]
+}
+EOF
+}
+
+resource "aws_iam_role_policy_attachment" "c19-cran-glue-service-role" {
+    role = aws_iam_role.c19-cran-glue-role.id
+    policy_arn = "arn:aws:iam::aws:policy/service-role/AWSGlueServiceRole"
+}
+
+resource "aws_iam_role_policy" "my_s3_policy" {
+  name = "my_s3_policy"
+  role = aws_iam_role.c19-cran-glue-role.id
+  policy = <<EOF
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": [
+        "s3:*"
+      ],
+      "Resource": [
+        "arn:aws:s3:::my_bucket",
+        "arn:aws:s3:::my_bucket/*"
+      ]
+    }
+  ]
+}
+EOF
+}
+
+resource "aws_iam_role_policy" "glue_service_s3" {
+ name = "glue_service_s3"
+    role = aws_iam_role.c19-cran-glue-role.id
+    policy = "${aws_iam_role_policy.my_s3_policy.policy}"
+}
+
 resource "aws_glue_catalog_database" "c19-cran-plants-db" {
   name = "c19-cran-plants-db"
 }
@@ -57,7 +109,7 @@ resource "aws_glue_catalog_database" "c19-cran-plants-db" {
 resource "aws_glue_crawler" "c19-cran-crawler" {
   database_name = aws_glue_catalog_database.c19-cran-plants-db.name
   name          = "c19-cran-crawler"
-  role          = aws_iam_role.aws_glue_crawler.role
+  role          = aws_iam_role.c19-cran-glue-role.arn
 
   s3_target {
     path = "s3://${aws_s3_bucket.c19-cran-bucket.bucket}"
@@ -80,7 +132,7 @@ data "aws_iam_policy_document" "assume_role" {
 }
 
 resource "aws_iam_role" "c19-cran-lambda-role" {
-  name               = "lambda_execution_role"
+  name               = "c19-cran-lambda-role"
   assume_role_policy = data.aws_iam_policy_document.assume_role.json
 }
 
@@ -242,4 +294,24 @@ resource "aws_iam_role_policy_attachment" "c19-cran-task-execution-policy" {
 #     }
 #   ]
 #   )
+# }
+
+# ECS SERVICE 
+
+# resource "aws_ecs_service" "c19-cran-plants-pipeline" {
+#   name                               = "${var.namespace}_ECS_Service_${var.environment}"
+#   cluster                            = aws_ecs_cluster.default.id
+#   task_definition                    = aws_ecs_task_definition.default.arn
+#   desired_count                      = var.ecs_task_desired_count
+#   launch_type                        = "FARGATE"
+
+#   network_configuration {
+#     security_groups  = [aws_security_group.ecs_container_instance.id]
+#     subnets          = aws_subnet.private.*.id
+#     assign_public_ip = false
+#   }
+
+#   lifecycle {
+#     ignore_changes = [desired_count]
+#   }
 # }
