@@ -11,6 +11,7 @@ logging.basicConfig(
 
 
 def load_data():
+    """Load data into RDS."""
     conn = get_connection()
 
     # Load transformed dataframe
