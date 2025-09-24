@@ -1,0 +1,6 @@
+requests
+pandas
+pytest
+pylint
+pyodbc
+python-dotenv
