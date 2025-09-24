@@ -32,28 +32,3 @@ def get_reading_data_df(conn) -> pd.DataFrame:
                                      columns=['reading_id', 'temperature', 'soil_moisture', 'recording_taken', 'plant_id', 'botanist_id'])
 
 
-
-if __name__ == "__main__":
-    
-    load_dotenv()
-
-    conn = get_connection()
-
-    # city_data_df = pd.DataFrame.from_records(query_db(conn, "SELECT * FROM beta.City;"),
-    #                           columns=['city_id', 'city_name', 'lat', 'long', 'country_id'])
-    # country_data_df = pd.DataFrame.from_records(query_db(conn, "SELECT * FROM beta.Country;"),
-    #                           columns=['country_id', 'country_name'])
-    # plant_data_df = pd.DataFrame.from_records(query_db(conn, "SELECT * FROM beta.Plant;"),
-    #                           columns=['plant_id', 'plant_name', 'scientific_name', 'last_watered', 'city_id'])
-    # botanist_data_df = pd.DataFrame.from_records(query_db(conn, "SELECT * FROM beta.Botanist;"),
-    #                           columns=['botanist_id', 'first_name', 'last_name', 'email', 'phone_number'])
-    # reading_data_df = pd.DataFrame.from_records(query_db(conn, "SELECT * FROM beta.Reading;"),
-    #                           columns=['reading_id', 'temperature', 'soil_moisture', 'recording_taken', 'plant_id', 'botanist_id'])
-
-    plant_data_df = get_plant_data_df(conn)
-    reading_data_df = get_reading_data_df(conn)
-    
-    average_temp_df = get_average_temp_df(reading_data_df)
-    average_soil_moisture_df = get_average_soil_moisture_df(reading_data_df)
-
-    conn.close()
