@@ -34,7 +34,7 @@ sqlcmd -S [host],[port] -U [user] -P [password] -d [dbname] -i schema.sql
 ## Features
 
 - Fetches plant data from API endpoints
-- Uses multthreading for faster execution
+- Uses multi-threading for faster execution
 - Automatically skips duplicates by checking last timestamps
 - Uses logging for progress, updates and errors
 - Loads all the data into a JSON file
@@ -52,7 +52,7 @@ Can change two parameters
 
 ## Usage 
 
-Run the scipt
+Run the script
 
 - python3 extract.py
 
@@ -71,10 +71,10 @@ Then the script will:
 - Validates the required fields (plant_id, name, temperature, soil_moisture and recording_taken)
 - Cleans the nested structures (Botanist data)
     - Get the name, email, phone
-    - Plits name into first and last
+    - Splits name into first and last
 - Validates email using regex
 - Phone number validation
-    - Supports extentions
+    - Supports extensions
     - Converts dots to dashes
 - Title and suffix cleaning
     - Removes titles (Mr. Mrs. Dr. etc)
@@ -95,7 +95,7 @@ This will:
 
 - Load the plant data from plants.json
 - Validate and clean
-- Print a preview of the cleaned dataframe
+- Print a preview of the cleaned data frame
 
 ## Transform steps
 
