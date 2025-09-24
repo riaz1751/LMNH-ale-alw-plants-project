@@ -12,6 +12,11 @@ logging.basicConfig(
     format="%(asctime)s [%(levelname)s] %(message)s",
 )
 
+""" 
+These are the global variables, the first being the API and then second being
+the file it will be saved to.
+"""
+
 BASE_URL = "https://sigma-labs-bot.herokuapp.com/api/plants/"
 OUT_FILE = Path("plants.json")
 
