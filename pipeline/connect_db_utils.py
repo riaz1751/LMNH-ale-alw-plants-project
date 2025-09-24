@@ -14,7 +14,7 @@ def get_connection() -> pyodbc.Connection:
     return pyodbc.connect(conn_str)
 
 
-def query_db(conn: pyodbc.Connection, query: str):
+def query_db(conn: pyodbc.Connection, query: str) -> list:
     """Queries the DB and returns the response."""
     with conn.cursor() as cur:
         cur.execute(query)
@@ -22,12 +22,24 @@ def query_db(conn: pyodbc.Connection, query: str):
     return data
 
 
+def insert_db(conn: pyodbc.Connection, query: str):
+    """Inserts row into DB"""
+    with conn.cursor() as cur:
+        cur.execute(query)
+
+
+def get_mapping(conn: pyodbc.Connection, table_name: str, attr: str, primary_key: str) -> dict:
+    """Returns a mapping between attr & primary key for transformation mapping."""
+    with conn.cursor() as cur:
+        cur.execute(f"SELECT {attr}, {primary_key} from {table_name};")
+        data = cur.fetchall()
+    return {row[0]: row[1] for row in data}
+
+
 if __name__ == "__main__":
 
     load_dotenv()
 
     conn = get_connection()
-
-    print(query_db(conn, "SELECT * FROM beta.City;"))
 
     conn.close()
