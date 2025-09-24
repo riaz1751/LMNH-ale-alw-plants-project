@@ -4,3 +4,5 @@ pytest
 pylint
 pyodbc
 python-dotenv
+fastparquet
+awswrangler

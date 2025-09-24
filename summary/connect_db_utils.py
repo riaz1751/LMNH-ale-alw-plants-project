@@ -22,6 +22,12 @@ def query_db(conn: pyodbc.Connection, query: str):
     return data
 
 
+def clear_reading_table(conn: pyodbc.Connection):
+    """Clear the reading table from the plants database."""
+    with conn.cursor as cur:
+        cur.execute("DELETE FROM beta.Reading;")
+        conn.commit()
+
 if __name__ == "__main__":
 
     load_dotenv()
