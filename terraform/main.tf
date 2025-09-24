@@ -7,7 +7,7 @@ provider "aws" {
 # S3 Bucket
 
 resource "aws_s3_bucket" "c19-cran-bucket" {
-    bucket = "c19-cran-bucket"
+    bucket = var.S3_NAME
     force_destroy = false   
 }
 
@@ -177,62 +177,66 @@ resource "aws_iam_role_policy_attachment" "c19-cran-task-execution-policy" {
 }
 
 # PIPELINE ECS TASK DEFINITION
-# resource "aws_ecs_task_definition" "c19-cran-plants-pipeline" {
-#   family = "c19-cran-plants-pipeline"
-#   requires_compatibilities = ["FARGATE"]
-#   network_mode             = "awsvpc"
-#   cpu = 1024
-#   memory                   = 3072
-#   execution_role_arn = aws_iam_role.c19-cran-task-execution-role.arn
-#   container_definitions = jsonencode([
-#     {
-#       name = "my_pipeline",
-#       image ="129033205317.dkr.ecr.eu-west-2.amazonaws.com/c19-cran-plants-pipeline:latest",
-#       essential = true,
-#       logConfiguration = {
-#                 logDriver = "awslogs"
-#                 "options": {
-#                     awslogs-group = "/ecs/c19-cran-plants-pipeline"
-#                     awslogs-stream-prefix = "ecs"
-#                     awslogs-create-group = "true"
-#                     awslogs-stream-prefix = "ecs"
-#                     awslogs-region = "eu-west-2"
-#                 }
-#             }
-#       environment= [
-#         {
-#           name = "AWS_ACCESS_KEY",
-#           value= var.ACCESS_KEY
-#         },
-#         {
-#           name = "AWS_SECRET_ACCESS_KEY",
-#           value= var.SECRET_ACCESS_KEY
-#         },
-#         {
-#           name = "DB_HOST",
-#           value = var.DB_HOST
-#         },
-#         {
-#           name = "DB_PORT",
-#           value = var.DB_PORT
-#         },
-#         {
-#           name = "DB_NAME",
-#           value = var.DB_NAME
-#         },
-#         {
-#           name = "DB_USERNAME",
-#           value = var.DB_USERNAME
-#         },
-#         {
-#           name = "DB_PASSWORD",
-#           value = var.DB_PASSWORD
-#         }
-#       ]
-#     }
-#   ]
-#   )
-# }
+resource "aws_ecs_task_definition" "c19-cran-plants-pipeline" {
+  family = "c19-cran-plants-pipeline"
+  requires_compatibilities = ["FARGATE"]
+  network_mode             = "awsvpc"
+  cpu = 1024
+  memory                   = 3072
+  execution_role_arn = aws_iam_role.c19-cran-task-execution-role.arn
+  container_definitions = jsonencode([
+    {
+      name = "my_pipeline",
+      image ="129033205317.dkr.ecr.eu-west-2.amazonaws.com/c19-cran-pipeline:latest",
+      essential = true,
+      logConfiguration = {
+                logDriver = "awslogs"
+                "options": {
+                    awslogs-group = "/ecs/c19-cran-plants-pipeline"
+                    awslogs-stream-prefix = "ecs"
+                    awslogs-create-group = "true"
+                    awslogs-stream-prefix = "ecs"
+                    awslogs-region = "eu-west-2"
+                }
+            }
+      environment= [
+        {
+          name = "ACCESS_KEY",
+          value= var.ACCESS_KEY
+        },
+        {
+          name = "SECRET_ACCESS_KEY",
+          value= var.SECRET_ACCESS_KEY
+        },
+        {
+          name = "DB_HOST",
+          value = var.DB_HOST
+        },
+        {
+          name = "DB_PORT",
+          value = var.DB_PORT
+        },
+        {
+          name = "DB_NAME",
+          value = var.DB_NAME
+        },
+        {
+          name = "DB_USERNAME",
+          value = var.DB_USERNAME
+        },
+        {
+          name = "DB_PASSWORD",
+          value = var.DB_PASSWORD
+        },
+        {
+          name = "DB_DRIVER",
+          value = var.DB_DRIVER
+        }
+      ]
+    }
+  ]
+  )
+}
 
 # DASHBOARD ECS TASK DEFINITION
 # resource "aws_ecs_task_definition" "c19-cran-plants-dashboard" {
