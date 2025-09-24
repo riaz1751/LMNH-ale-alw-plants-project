@@ -14,7 +14,7 @@ def get_connection() -> pyodbc.Connection:
     return pyodbc.connect(conn_str)
 
 
-def query_db(conn: pyodbc.Connection, query: str):
+def query_db(conn: pyodbc.Connection, query: str) -> list:
     """Queries the DB and returns the response."""
     with conn.cursor() as cur:
         cur.execute(query)
