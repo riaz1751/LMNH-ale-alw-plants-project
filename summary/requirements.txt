@@ -6,3 +6,4 @@ pyodbc
 python-dotenv
 fastparquet
 awswrangler
+boto3
