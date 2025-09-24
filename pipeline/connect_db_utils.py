@@ -4,6 +4,8 @@ from os import environ as ENV
 from dotenv import load_dotenv
 import pyodbc
 
+load_dotenv()
+
 
 def get_connection() -> pyodbc.Connection:
     """Return a connection to the RDS."""
@@ -22,10 +24,11 @@ def query_db(conn: pyodbc.Connection, query: str) -> list:
     return data
 
 
-def insert_db(conn: pyodbc.Connection, query: str):
-    """Inserts row into DB"""
+def insert_db(conn: pyodbc.Connection, query: str, params: tuple):
+    """Insert a row into DB with parameters."""
     with conn.cursor() as cur:
-        cur.execute(query)
+        cur.execute(query, params)
+    conn.commit()
 
 
 def get_mapping(conn: pyodbc.Connection, table_name: str, attr: str, primary_key: str) -> dict:
