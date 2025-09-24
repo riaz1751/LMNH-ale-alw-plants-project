@@ -30,5 +30,3 @@ def get_reading_data_df(conn) -> pd.DataFrame:
     """Get all the reading table data form the RDS"""
     return pd.DataFrame.from_records(query_db(conn, "SELECT * FROM beta.Reading;"),
                                      columns=['reading_id', 'temperature', 'soil_moisture', 'recording_taken', 'plant_id', 'botanist_id'])
-
-

@@ -114,6 +114,13 @@ def clean_phone_numbers(data: pd.DataFrame) -> pd.DataFrame:
     return data
 
 
+def clean_soil_moisture_data(data: pd.DataFrame) -> pd.DataFrame:
+    """Convert negative soil moisture readings to their absolute value"""
+    data['soil_moisture'] = data["soil_moisture"].abs()
+
+    return data
+
+
 def clean_valid_data():
     """Calling functions for data validation, cleaning and transformation."""
     data = load_json()
@@ -122,6 +129,7 @@ def clean_valid_data():
     data = clean_names(valid_data)
     data = clean_emails(data)
     data = clean_phone_numbers(data)
+    data = clean_soil_moisture_data(data)
     return data
 
 
