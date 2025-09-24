@@ -20,7 +20,7 @@ CREATE TABLE beta.Country (
 
 CREATE TABLE beta.City (
     city_id INT IDENTITY(1,1) PRIMARY KEY,
-    city_name VARCHAR NOT NULL,
+    city_name VARCHAR(20) NOT NULL,
     lat FLOAT NOT NULL,
     long FLOAT NOT NULL,
     country_id INT NOT NULL,
