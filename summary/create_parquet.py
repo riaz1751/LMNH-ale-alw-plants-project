@@ -36,9 +36,9 @@ def create_parquet(conn: pyodbc.Connection, summary_df: pd.DataFrame):
     """Script to run the entire parquet workflow."""
 
     my_session = boto3.session.Session(
-        aws_access_key_id=getenv('AWS_ACCESS_KEY'),
-        aws_secret_access_key=getenv('AWS_SECRET_ACCESS_KEY'),
-        region_name=getenv('AWS_REGION')
+        aws_access_key_id=getenv('ACCESS_KEY'),
+        aws_secret_access_key=getenv('SECRET_ACCESS_KEY'),
+        region_name=getenv('REGION')
     )
     bucket = getenv("S3_BUCKET")
 
