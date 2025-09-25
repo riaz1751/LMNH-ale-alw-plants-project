@@ -43,14 +43,14 @@ def get_summary_data_df(temperature_df, soil_moisture_df) -> pd.DataFrame:
     """Get a dataframe containing all the necessary summary data."""
     summary_df = temperature_df
     summary_df["average_soil_moisture"] = soil_moisture_df["average_soil_moisture"]
-    logging.INFO("Reading data successfully summarised.")
+    logging.info("Reading data successfully summarised.")
     return summary_df
 
 
 def extract_data(conn: pyodbc.Connection) -> pd.DataFrame:
     """Extracts and summarises reading data, temp data, & soil moisture data."""
 
-    logging.INFO("Extracting reading data from database.")
+    logging.info("Extracting reading data from database.")
     reading_df = get_reading_data_df(conn)
 
     temp_df = get_average_temp_df(reading_df)
