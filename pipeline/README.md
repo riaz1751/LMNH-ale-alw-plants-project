@@ -119,3 +119,41 @@ This will:
     - Replaces . with -
     - Drop rows with invalid phone numbers
 
+
+### Load
+
+## Features
+
+- Connects to the SQL Server RDS using pyodbc
+- Retrieves the plant data produced by the transform script
+- Loads data into the following tables in the schema beta:
+    - Country (ensures the country names are unique)
+    - City (ensures the city_name, city_id are unique)
+    - Botanist (ensures the botanist email is unique)
+    - Plant (ensures plant_name, city_id asre unique)
+    - Reading (inserts the valid readings and linked with plant_name and city_id)
+
+## Table relationships
+
+- Country: Once country can have many cities
+- City: Linked to a single country
+- Botanist: Identified using unique emial
+- Plant: Belongs to a city
+- Reading: Associated with both plant and botanist
+
+## Requirements
+
+pip3 install -r requirements.txt
+
+## Usage 
+
+python3 load.py
+
+This will:
+
+- Connect to the RDS
+- Validate the existing mappings for country, city, plant and botanist
+- Insert new records only when they are unique enough
+- Add readings referencing the correct foreign keys
+
+
