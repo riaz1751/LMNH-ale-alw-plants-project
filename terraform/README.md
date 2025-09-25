@@ -11,7 +11,7 @@ To setup initial resources, ECRs, S3, Glue DB, run `stage_one main.tf`. Once doc
 # Inside stage_one folder
 terraform apply
 ```
-2. Push containerised images (ETL Pipeline & Summary pipeline) up to ECR, & put image URI in the associated resources in stage_two main.tf.
+2. Push containerised images (ETL Pipeline & Summary pipeline) up to ECR, & put image URI's in the associated resources in stage_two main.tf.
 
 3. Run stage_two main.tf with
 ```bash
