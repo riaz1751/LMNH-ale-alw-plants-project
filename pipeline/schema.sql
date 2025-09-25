@@ -1,3 +1,5 @@
+-- Schema for RDS database --
+
 IF OBJECT_ID('beta.Reading', 'U') IS NOT NULL
     DROP TABLE beta.Reading
 

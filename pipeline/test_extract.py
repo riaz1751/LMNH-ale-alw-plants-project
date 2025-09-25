@@ -41,6 +41,7 @@ def test_load_existing_invalid_filepath():
 
 
 def test_get_latest_timestamp():
+    """Testing the get_latest_timestamp."""
     plants = [
         {"recording_taken": "2025-09-23T10:00:00.000Z"}
     ]
@@ -49,6 +50,7 @@ def test_get_latest_timestamp():
 
 
 def test_fetch_one_adds_new(monkeypatch):
+    """Test the fetch_one function."""
     plant = {
         "plant_id": 5,
         "name": "Mock Plant",
@@ -64,6 +66,7 @@ def test_fetch_one_adds_new(monkeypatch):
 
 
 def test_fetch_one_check_older():
+    """Test fetch_one function for older data."""
     plant = {
         "plant_id": 6,
         "name": "Mock Plant",
@@ -78,6 +81,7 @@ def test_fetch_one_check_older():
 
 
 def test_fetch_one_no_ts():
+    """Test the no timestamp case."""
     plant = {
         "plant_id": 7,
         "name": "Mock Plant",
@@ -93,6 +97,7 @@ def test_fetch_one_no_ts():
 
 
 def test_fetch_one_handles_invalid_ts():
+    """Test the invalid timestamp case."""
     plant = {
         "plant_id": 7,
         "name": "Mock Plant",
@@ -106,6 +111,7 @@ def test_fetch_one_handles_invalid_ts():
 
 
 def test_fetch_one_handles_error():
+    """Test the error handling case."""
     extract.requests.get = MagicMock(return_value=DummyData(500))
     extract.new_record.clear()
     extract.fetch_one(9, datetime.now(timezone.utc))
@@ -113,6 +119,7 @@ def test_fetch_one_handles_error():
 
 
 def test_fetch_updates_collect_new_skip_old():
+    """Test if only updates are extracted to json."""
     data = {
         1: {"plant_id": 1, "name": "Old", "recording_taken": "2025-09-20T10:00:00.000Z"},
         2: {"plant_id": 2, "name": "New", "recording_taken": "2025-09-25T10:00:00.000Z"}

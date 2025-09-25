@@ -1,3 +1,4 @@
+"""Testing script for the load script of the ETL pipeline."""
 import pytest
 import pandas as pd
 from unittest.mock import patch, MagicMock
@@ -6,6 +7,7 @@ from load import load_data
 
 @pytest.fixture
 def sample_df():
+    """Sample data from for testing."""
     return pd.DataFrame([{
         "origin_location": {"city": "London", "country": "England", "latitude": 51.5, "longitude": -0.12},
         "name": "Rose",
@@ -23,6 +25,7 @@ def sample_df():
 
 @pytest.fixture
 def mock_conn():
+    """Mock connection for testing."""
     conn = MagicMock()
     cursor = conn.cursor.return_value.__enter__.return_value
     return conn
