@@ -114,6 +114,7 @@ resource "aws_glue_crawler" "c19-cran-crawler" {
   s3_target {
     path = "s3://${aws_s3_bucket.c19-cran-bucket.bucket}"
   }
+  schedule = "cron(1 9 * * ? *)"
 }
 
 # Lambda Function
@@ -166,6 +167,12 @@ resource "aws_iam_role" "c19-cran-task-execution-role" {
                 "Service": "ecs-tasks.amazonaws.com"
             },
             "Action": "sts:AssumeRole"
+        },
+        {
+            "Sid": "VisualEditor0",
+            "Effect": "Allow",
+            "Action": "logs:CreateLogGroup",
+            "Resource": "*"
         }
     ]
 })
