@@ -135,7 +135,7 @@ This will:
 
 ## Table relationships
 
-- Country: Once country can have many cities
+- Country: One country can have many cities
 - City: Linked to a single country
 - Botanist: Identified using unique emial
 - Plant: Belongs to a city
