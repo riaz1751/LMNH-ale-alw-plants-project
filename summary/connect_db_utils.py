@@ -3,7 +3,12 @@ from os import environ as ENV
 
 from dotenv import load_dotenv
 import pyodbc
+import logging
 
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s [%(levelname)s] %(message)s",
+)
 
 def get_connection() -> pyodbc.Connection:
     """Return a connection to the RDS."""
@@ -24,7 +29,8 @@ def query_db(conn: pyodbc.Connection, query: str):
 
 def clear_reading_table(conn: pyodbc.Connection):
     """Clear the reading table from the plants database."""
-    with conn.cursor as cur:
+    logging.info("Deleting data from RDS.")
+    with conn.cursor() as cur:
         cur.execute("DELETE FROM beta.Reading;")
         conn.commit()
 
