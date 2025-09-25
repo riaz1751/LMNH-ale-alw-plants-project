@@ -17,3 +17,7 @@ for data analysis & visualisations.
 - **Project Manager**: Nicanor Enguerra
 - **Engineer & Analyst**: All of the above
 
+# Architecture Diagram
+
+
+# Entity Relationship Diagram
