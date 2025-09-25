@@ -1,3 +1,5 @@
+# STAGE 1 - No dependencies for creation
+
 provider "aws" {
   region = var.REGION
   access_key = var.ACCESS_KEY
@@ -51,7 +53,7 @@ resource "aws_ecr_repository" "c19-cran-summarise" {
 # GLUE DB & GLUE CRAWLER
 
 resource "aws_iam_role" "c19-cran-glue-role" {
-  name = "AWSGlueServiceRoleDefault"
+  name = "c19-cran-glue-service-role"
   assume_role_policy = <<EOF
 {
   "Version": "2012-10-17",
@@ -87,8 +89,8 @@ resource "aws_iam_role_policy" "my_s3_policy" {
         "s3:*"
       ],
       "Resource": [
-        "arn:aws:s3:::my_bucket",
-        "arn:aws:s3:::my_bucket/*"
+        "arn:aws:s3:::c19-cran-bucket",
+        "arn:aws:s3:::c19-cran-bucket/*"
       ]
     }
   ]
@@ -112,7 +114,7 @@ resource "aws_glue_crawler" "c19-cran-crawler" {
   role          = aws_iam_role.c19-cran-glue-role.arn
 
   s3_target {
-    path = "s3://${aws_s3_bucket.c19-cran-bucket.bucket}"
+    path = "s3://${aws_s3_bucket.c19-cran-bucket.bucket}/etl-output/"
   }
   schedule = "cron(1 9 * * ? *)"
 }
@@ -167,12 +169,6 @@ resource "aws_iam_role" "c19-cran-task-execution-role" {
                 "Service": "ecs-tasks.amazonaws.com"
             },
             "Action": "sts:AssumeRole"
-        },
-        {
-            "Sid": "VisualEditor0",
-            "Effect": "Allow",
-            "Action": "logs:CreateLogGroup",
-            "Resource": "*"
         }
     ]
 })
