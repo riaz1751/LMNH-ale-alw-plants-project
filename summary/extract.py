@@ -11,10 +11,11 @@ logging.basicConfig(
     format="%(asctime)s [%(levelname)s] %(message)s",
 )
 
+
 def get_average_temp_df(reading_df: pd.DataFrame) -> pd.DataFrame:
     """Get a dataframe of the average temperature of all plants by the hour"""
     return reading_df.groupby(['plant_id', 'year', 'month', 'day', 'hour'])['temperature'].mean().reset_index(name='average_temperature')
- 
+
 
 def get_average_soil_moisture_df(reading_df: pd.DataFrame) -> pd.DataFrame:
     """Get a dataframe of the average soilMoisture of all plants by the hour"""
@@ -30,7 +31,7 @@ def get_plant_data_df(conn) -> pd.DataFrame:
 def get_reading_data_df(conn) -> pd.DataFrame:
     """Get all the reading table data form the RDS"""
     reading_df = pd.DataFrame.from_records(query_db(conn, "SELECT * FROM beta.Reading;"),
-                                     columns=['reading_id', 'temperature', 'soil_moisture', 'recording_taken', 'plant_id', 'botanist_id'])
+                                           columns=['reading_id', 'temperature', 'soil_moisture', 'recording_taken', 'plant_id', 'botanist_id'])
     reading_df['year'] = reading_df['recording_taken'].dt.year
     reading_df['month'] = reading_df['recording_taken'].dt.month
     reading_df['day'] = reading_df['recording_taken'].dt.day
