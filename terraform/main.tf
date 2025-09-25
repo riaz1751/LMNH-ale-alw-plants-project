@@ -114,7 +114,7 @@ resource "aws_glue_crawler" "c19-cran-crawler" {
   role          = aws_iam_role.c19-cran-glue-role.arn
 
   s3_target {
-    path = "s3://${aws_s3_bucket.c19-cran-bucket.bucket}/etl-output/"
+    path = "s3://${aws_s3_bucket.c19-cran-bucket.bucket}/etl-output/summary/"
   }
   schedule = "cron(1 9 * * ? *)"
 }
