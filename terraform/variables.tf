@@ -25,6 +25,9 @@ variable "DB_USERNAME" {
 variable "DB_PASSWORD" {
     type= string
 }
+variable "DB_DRIVER" {
+    type= string
+}
 variable "S3_NAME" {
   type = string
 }
