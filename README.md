@@ -16,3 +16,8 @@ for data analysis & visualisations.
 - **Quality Assurance**: Aaron Sahota
 - **Project Manager**: Nicanor Enguerra
 - **Engineer & Analyst**: All of the above
+
+# Architecture Diagram
+
+
+# Entity Relationship Diagram
