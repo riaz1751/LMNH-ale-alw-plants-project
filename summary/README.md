@@ -4,11 +4,16 @@
 
 ```ini
 
-Fill in with environment variables
-AWS_ACCESS_KEY
-AWS_SECRET_ACCESS_KEY
-AWS_REGION
+ACCESS_KEY
+SECRET_ACCESS_KEY
+REGION
 S3_BUCKET
+DB_DRIVER
+DB_HOST
+DB_NAME
+DB_PORT
+DB_USERNAME
+DB_PASSWORDDB_SCHEMA
 
 ```
 
@@ -99,3 +104,26 @@ clear_reading_table
 
 Function to clear the Reading table in the RDS
 
+
+### Summary
+
+## Features
+
+- Connects to an RDS SQL Server database using credentials from the .env
+- Extracts plant data using the extract_data function
+- Creates parquet summaries partioned by date/time using the create_parquet function
+- Uploads the parquet files to Amazon S3
+- Clears the Reading table after success
+- Can be executed as an AWS Lambda function
+
+## Usage
+
+```python
+python3 summary.py
+```
+
+This will:
+
+- Package the code and dependencies in a Docker image or Lambda layer
+- Ensures the IAM is attatched to the Lambda 
+- Uses logging so they are visible in CloudWatch
