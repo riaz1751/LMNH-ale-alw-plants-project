@@ -1,3 +1,4 @@
+"""Loading the transformed data into the RDS database."""
 import logging
 from connect_db_utils import get_connection, insert_db, get_mapping
 from transform import clean_valid_data
