@@ -4,6 +4,7 @@
 import pandas as pd
 from dotenv import load_dotenv
 from os import getenv
+from os import environ as ENV
 import awswrangler as wr
 import boto3
 import pyodbc
@@ -16,11 +17,11 @@ logging.basicConfig(
     format="%(asctime)s [%(levelname)s] %(message)s",
 )
 
-def export_to_parquet(my_session: boto3.session.Session, conn: pyodbc.Connection, bucket: str, summary_data_df: pd.DataFrame):
+def export_to_parquet(my_session: boto3.session.Session, bucket: str, summary_data_df: pd.DataFrame):
     """Upload summary data to parquet files in S3 bucket."""
 
     s3_path_summary = f"s3://{bucket}/summary/"
-
+    
     wr.s3.to_parquet(
         df=summary_data_df,
         path=s3_path_summary,
@@ -36,13 +37,13 @@ def create_parquet(conn: pyodbc.Connection, summary_df: pd.DataFrame):
     """Script to run the entire parquet workflow."""
 
     my_session = boto3.session.Session(
-        aws_access_key_id=getenv('AWS_ACCESS_KEY'),
-        aws_secret_access_key=getenv('AWS_SECRET_ACCESS_KEY'),
-        region_name=getenv('AWS_REGION')
+        aws_access_key_id=ENV['ACCESS_KEY'],
+        aws_secret_access_key=ENV['SECRET_ACCESS_KEY'],
+        region_name=ENV['REGION']
     )
-    bucket = getenv("S3_BUCKET")
+    bucket = ENV['S3_BUCKET']
 
-    export_to_parquet(my_session, conn, bucket, summary_df)
+    export_to_parquet(my_session, bucket, summary_df)
     
 if __name__ == "__main__":
     load_dotenv()
