@@ -1,3 +1,4 @@
+"""ETL pipeline script for extracting, cleaning and loading plant records from API to RDS."""
 from extract import extract
 from transform import clean_valid_data
 from load import load_data
