@@ -1,7 +1,7 @@
 import streamlit as st
 import awswrangler as wr
 import pandas as pd
-from .db_utils import get_connection, query_db
+from .db_utils import get_connection, query_db, boto3_session
 
 
 @st.cache_data
@@ -14,6 +14,7 @@ def get_summary_data() -> pd.DataFrame:
     df = wr.athena.read_sql_query(
         sql=query,
         database="c19-cran-plants-db",
+        session=boto3_session()
     )
     return df
 

@@ -1,9 +1,18 @@
 import pandas as pd
 import pyodbc
+import boto3
 from dotenv import load_dotenv
 from os import environ as ENV
 
 load_dotenv()
+
+
+def boto3_session():
+    """Create and return a boto3 session for extracting summary data from S3."""
+    aws_session = boto3.Session(aws_access_key_id=ENV["AWS_ACCESS_KEY"],
+                                aws_secret_access_key=ENV["AWS_SECRET_KEY"],
+                                region_name=ENV["AWS_REGION"])
+    return aws_session
 
 
 def get_connection():
