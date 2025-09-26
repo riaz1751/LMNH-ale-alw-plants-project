@@ -15,7 +15,6 @@ def plot_temp_vs_moisture(df):
         )
         .interactive()
     )
-# Works
 
 
 def plot_time_series(df, y_col, title):
