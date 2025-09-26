@@ -201,6 +201,10 @@ resource "aws_lambda_function" "c19-cran-plants-summarise-lambda" {
 #         {
 #           name = "DB_DRIVER",
 #           value = var.DB_DRIVER
+#         },
+#         {
+#           name = "ATHENA_DB",
+#           value = var.ATHENA_DB
 #         }
 #       ]
 #     }
