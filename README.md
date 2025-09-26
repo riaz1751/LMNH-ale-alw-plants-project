@@ -18,7 +18,7 @@ for data analysis & visualisations.
 - **Engineer & Analyst**: All of the above
 
 # Architecture Diagram
-![alt text](images/architecture_diagram.png)
+![alt text](images/architecture_diagram.jpg)
 
 A repeated `ECS Fargate` task reads daily readings data from individual `API` endpoints and passes the data through an `ETL` pipeline to process data for storage.
 
