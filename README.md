@@ -19,7 +19,7 @@ for data analysis & visualisations.
 
 # Architecture Diagram
 ![alt text](images/Architecture_Diagram.png)
-- An `ECS Fargate` service reads daily readings data from individual `API` endpoints and passes the data through an `ETL` pipeline to process data for storage.
+- An repeated `ECS Fargate` task reads daily readings data from individual `API` endpoints and passes the data through an `ETL` pipeline to process data for storage.
 - An `EventBridge` cron-job triggers the `ECS Fargate` task every minute to run the pipeline for new data points.
 - The data is uploaded to an `AWS RDS` database for short term storage. 
 - A `lambda` function that extracts data from the `RDS` and processes it through an `ETL` pipeline to create daily summary `parquet` files and uploads them to an `AWS S3` bucket for long term storage. 
