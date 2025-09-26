@@ -2,7 +2,7 @@ from os import environ as ENV
 import streamlit as st
 import awswrangler as wr
 import pandas as pd
-from .db_utils import get_connection, query_db, boto3_session
+from db_utils import get_connection, query_db, boto3_session
 
 
 @st.cache_data

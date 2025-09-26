@@ -1,7 +1,7 @@
 import streamlit as st
 import pandas as pd
-from utils.data_cache import get_summary_data
-from utils.charts import plot_temp_vs_moisture, plot_time_series
+from data_cache import get_summary_data
+from charts import plot_temp_vs_moisture, plot_time_series
 from dotenv import load_dotenv
 
 load_dotenv()
