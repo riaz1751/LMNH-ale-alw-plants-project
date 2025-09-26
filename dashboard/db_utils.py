@@ -1,3 +1,9 @@
+""" Provides a boto3 session ofr accessing AWS services using the credentials stored in 
+the .env. 
+get_connection() establishes the connection between RDS  using the credentials in the .env
+query_db() executes a SQL query against the RDS
+"""
+
 import pandas as pd
 import pyodbc
 import boto3

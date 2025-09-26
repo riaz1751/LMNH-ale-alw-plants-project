@@ -1,3 +1,13 @@
+""" 
+Functions take in the df as an arguement and return Altair graphs which are then
+used in the Streamlit dashboard. 
+
+Charts included are:
+
+    - Plot of temp against soil moisture
+    - Plot of temp/soil moisture against time
+"""
+
 import altair as alt
 
 
