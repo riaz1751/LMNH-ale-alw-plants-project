@@ -13,7 +13,7 @@ def get_summary_data() -> pd.DataFrame:
     """
     df = wr.athena.read_sql_query(
         sql=query,
-        database=ENV["S3_Bucket"],
+        database=ENV["ATHENA_DB],
         session=boto3_session()
     )
     return df
