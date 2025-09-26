@@ -4,8 +4,8 @@ This folder includes the entire workflow to summarise day old data from the RDS 
 ## Requirements
 1. A `.env` file formatted as below.
 ```ini
-AWS_ACCESS_KEY={aws_access_key}
-AWS_SECRET_ACCESS_KEY={aws_secret_access_key}
+ACCESS_KEY={aws_access_key}
+SECRET_ACCESS_KEY={aws_secret_access_key}
 REGION={aws_region}
 S3_BUCKET={s3_bucket_name}
 DB_DRIVER={db_driver}
