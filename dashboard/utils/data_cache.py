@@ -1,7 +1,7 @@
 import streamlit as st
 import awswrangler as wr
 import pandas as pd
-from .db_utils import get_connection, query_db, boto3_session
+from .db_utils import get_connection, query_db, boto3_session, ENV
 
 
 @st.cache_data
@@ -11,9 +11,10 @@ def get_summary_data() -> pd.DataFrame:
         SELECT *
         FROM summary
     """
+    # Add bucket name to .env file as S3_Bucket="c19-cran-plants-db"
     df = wr.athena.read_sql_query(
         sql=query,
-        database="c19-cran-plants-db",
+        database=ENV["S3_Bucket"],
         session=boto3_session()
     )
     return df
