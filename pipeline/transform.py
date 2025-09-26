@@ -1,9 +1,8 @@
 """Transform script of the ETL pipeline."""
-import json
-import pandas as pd
-import logging
-from extract import OUT_FILE
 import re
+import logging
+import pandas as pd
+from extract import OUT_FILE
 
 # Validate dictionaries with required data: name, plant_id, last_watered, scientific_name
 # Reading:temperature, soil_moisture, recording_taken
@@ -15,6 +14,8 @@ import re
 # Clean botanist phone number to not have x in it
 # Standardise time stamps
 
+# pylint:disable=unsupported-assignment-operation
+# pylint:disable=unsubscriptable-object
 
 logging.basicConfig(
     level=logging.INFO,
@@ -29,29 +30,29 @@ def load_json():
 
 def validate_data_types(data: pd.DataFrame) -> pd.DataFrame:
     """Validate the plant dictionaries."""
-    data = pd.DataFrame(data)
-    data = data.drop(columns=['images'])
-    data["name"] = data["name"].astype(str)
-    data["scientific_name"] = data["scientific_name"].astype(str)
-    data["last_watered"] = pd.to_datetime(
-        data["last_watered"], errors="coerce")
-    data["recording_taken"] = pd.to_datetime(
-        data["recording_taken"], errors="coerce")
-    return data
+    df = pd.DataFrame(data)
+    df = df.drop(columns=['images'])
+    df["name"] = df["name"].astype(str)
+    df["scientific_name"] = df["scientific_name"].astype(str)
+    df["last_watered"] = pd.to_datetime(
+        df["last_watered"], errors="coerce")
+    df["recording_taken"] = pd.to_datetime(
+        df["recording_taken"], errors="coerce")
+    return df
 
 
 def process_columns(data: pd.DataFrame) -> pd.DataFrame:
     """Processes dataframe required columns."""
     data = pd.DataFrame(data)
 
-    logging.debug(f"Validating name & plant_id are not null.")
+    logging.debug("Validating name & plant_id are not null.")
     data = data[data['name'].notnull() & data['plant_id'].notnull()]
 
-    logging.debug(f"Validating temperature & soil_moisture are not null.")
+    logging.debug("Validating temperature & soil_moisture are not null.")
     data = data[data['temperature'].notnull(
     ) & data['soil_moisture'].notnull()]
 
-    logging.debug(f"Validating recording_take is not null.")
+    logging.debug("Validating recording_take is not null.")
     data = data[data['recording_taken'].notnull()]
 
     return data
@@ -88,6 +89,7 @@ def clean_names(data: pd.DataFrame) -> pd.DataFrame:
 
 
 def clean_phone_numbers(data: pd.DataFrame) -> pd.DataFrame:
+    """This function processes the phone numbers so that they are normalised and clean."""
 
     data["phone"] = data["botanist"].apply(
         lambda x: x.get("phone") if x else None)
@@ -134,5 +136,5 @@ def clean_valid_data():
 
 
 if __name__ == "__main__":
-    data = clean_valid_data()
-    print(data.head())
+    clean_data = clean_valid_data()
+    print(clean_data.head())

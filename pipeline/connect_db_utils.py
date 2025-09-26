@@ -43,6 +43,6 @@ if __name__ == "__main__":
 
     load_dotenv()
 
-    conn = get_connection()
+    con = get_connection()
 
-    conn.close()
+    con.close()

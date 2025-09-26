@@ -1,7 +1,9 @@
 """Testing script for the load script of the ETL pipeline."""
+# pylint:skip-file
+
+from unittest.mock import patch, MagicMock
 import pytest
 import pandas as pd
-from unittest.mock import patch, MagicMock
 from load import load_data
 
 
@@ -9,7 +11,10 @@ from load import load_data
 def sample_df():
     """Sample data from for testing."""
     return pd.DataFrame([{
-        "origin_location": {"city": "London", "country": "England", "latitude": 51.5, "longitude": -0.12},
+        "origin_location": {"city": "London",
+                            "country": "England",
+                            "latitude": 51.5,
+                            "longitude": -0.12},
         "name": "Rose",
         "scientific_name": ["Rosa rubiginosa"],
         "last_watered": "2025-09-22T13:51:41.000Z",

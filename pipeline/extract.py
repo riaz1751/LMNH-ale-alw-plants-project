@@ -59,11 +59,11 @@ def fetch_one(plant_id: int, latest_ts: datetime) -> dict | None:
         plant = resp.json()
 
     except requests.RequestException as e:
-        logging.error(f"Error fetching plant {plant_id}: {e}")
+        logging.error("Error fetching plant %s: %s", plant_id, e)
 
     ts_str = plant.get("recording_taken")
     if not ts_str:
-        logging.debug(f"Plant {plant_id} has not recording taken.")
+        logging.debug("Plant %s has not recording taken.", plant_id)
         return None
 
     try:
@@ -75,7 +75,7 @@ def fetch_one(plant_id: int, latest_ts: datetime) -> dict | None:
         with lock:
             new_record.append(plant)
         logging.info(
-            f"Update found {plant['plant_id']}: {plant['name']} at {ts_str}")
+            "Update found %s: %s at %s", plant['plant_id'], plant['name'], ts_str)
 
 
 def fetch_updates(latest_ts: datetime, max_id: int = 200, workers: int = 20) -> list[dict]:
@@ -99,7 +99,7 @@ def fetch_updates(latest_ts: datetime, max_id: int = 200, workers: int = 20) -> 
         record.join()
 
     elapsed = time.perf_counter() - run_time
-    logging.info(f"Time take: {elapsed:.2f} seconds")
+    logging.info("Time take: %s seconds", f"{elapsed:.2f}")
 
     return new_record
 
@@ -108,7 +108,7 @@ def extract():
     """Main block functions."""
     plants = load_existing()
     latest_ts = get_latest_timestamp(plants)
-    logging.info(f"Latest known recording: {latest_ts}")
+    logging.info("Latest known recording: %s", latest_ts)
 
     new_plants = fetch_updates(latest_ts, max_id=200, workers=10)
 
@@ -117,7 +117,7 @@ def extract():
         with OUT_FILE.open("w", encoding="utf-8") as f:
             json.dump(plants, f, indent=2, ensure_ascii=False)
         logging.info(
-            f"Added {len(new_plants)} new/updated records. Total now {len(plants)}")
+            "Added %s new/updated records. Total now %s", len(new_plants), len(plants))
     else:
         logging.info("No new data found.")
 
