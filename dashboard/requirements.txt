@@ -1,0 +1,6 @@
+awswrangler
+boto3
+streamlit
+pandas
+altair
+python-dotenv
