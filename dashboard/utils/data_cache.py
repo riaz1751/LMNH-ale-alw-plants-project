@@ -11,7 +11,6 @@ def get_summary_data() -> pd.DataFrame:
         SELECT *
         FROM summary
     """
-    # Add bucket name to .env file as S3_Bucket="c19-cran-plants-db"
     df = wr.athena.read_sql_query(
         sql=query,
         database=ENV["S3_Bucket"],
