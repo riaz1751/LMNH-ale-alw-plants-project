@@ -6,7 +6,7 @@ sensor readings (RDS)
 
 ## Features
 
-- Compare the temparture vs soil moisture over time
+- Compare the temperature vs soil moisture over time
 - Filter data by plant name and ID
 - Switch between Athena and RDS live data
 - Cached queries for faster dashboard performance
