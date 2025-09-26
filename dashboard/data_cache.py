@@ -1,7 +1,7 @@
 import streamlit as st
 import pandas as pd
 import awswrangler as wr
-from .db_utils import get_connection
+from db_utils import get_connection, boto3_session
 
 
 @st.cache_data(ttl=600)  # cache for 10 min
@@ -14,8 +14,8 @@ def get_summary_data() -> pd.DataFrame:
     df = wr.athena.read_sql_query(
         sql=query,
         database="c19-cran-plants-db",
-        ctas_approach=False
-    )
+        ctas_approach=False,
+        boto3_session=boto3_session())
 
     # Combine into proper timestamp
     df["timestamp"] = pd.to_datetime(
