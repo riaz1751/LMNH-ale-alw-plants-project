@@ -136,85 +136,85 @@ resource "aws_lambda_function" "c19-cran-plants-summarise-lambda" {
 }
 
 # DASHBOARD ECS TASK DEFINITION
-# resource "aws_ecs_task_definition" "c19-cran-plants-dashboard" {
-#   family = "c19-cran-plants-dashboard"
-#   requires_compatibilities = ["FARGATE"]
-#   network_mode             = "awsvpc"
-#   cpu = 1024
-#   memory                   = 3072
-#   execution_role_arn = aws_iam_role.c19-cran-task-execution-role.arn
-#   container_definitions = jsonencode([
-#     {
-#       name = "c19-cran-plants-dashboard",
-#       image ="",
-#       essential = true,
-#       portMappings = [
-#         {
-#           containerPort = 8501
-#           hostPort      = 8501
-#           protocol      = "tcp"
-#         }
-#       ],
-#       logConfiguration = {
-#                 logDriver = "awslogs"
-#                 "options": {
-#                     awslogs-group = "/ecs/c19-cran-plants-dashboard"
-#                     awslogs-stream-prefix = "ecs"
-#                     awslogs-create-group = "true"
-#                     awslogs-stream-prefix = "ecs"
-#                     awslogs-region = "eu-west-2"
-#                 }
-#             }
-#       environment= [
-#         {
-#           name = "AWS_ACCESS_KEY",
-#           value= var.ACCESS_KEY
-#         },
-#         {
-#           name = "AWS_SECRET_ACCESS_KEY",
-#           value= var.SECRET_ACCESS_KEY
-#         },
-#         {
-#           name = "DB_HOST",
-#           value = var.DB_HOST
-#         },
-#         {
-#           name = "DB_PORT",
-#           value = var.DB_PORT
-#         },
-#         {
-#           name = "DB_NAME",
-#           value = var.DB_NAME
-#         },
-#         {
-#           name = "DB_USERNAME",
-#           value = var.DB_USERNAME
-#         },
-#         {
-#           name = "DB_PASSWORD",
-#           value = var.DB_PASSWORD
-#         },
-#         {
-#           name = "S3_NAME",
-#           value = var.S3_NAME
-#         },
-#         {
-#           name = "DB_DRIVER",
-#           value = var.DB_DRIVER
-#         },
-#         {
-#           name = "ATHENA_DB",
-#           value = var.ATHENA_DB
-#         }
-#       ]
-#     }
-#   ]
-#   )
-#   runtime_platform {
-#     operating_system_family = "LINUX"
-#     cpu_architecture        = "X86_64"
-#   }
-# }
+resource "aws_ecs_task_definition" "c19-cran-plants-dashboard" {
+  family = "c19-cran-plants-dashboard"
+  requires_compatibilities = ["FARGATE"]
+  network_mode             = "awsvpc"
+  cpu = 1024
+  memory                   = 3072
+  execution_role_arn = aws_iam_role.c19-cran-task-execution-role.arn
+  container_definitions = jsonencode([
+    {
+      name = "c19-cran-plants-dashboard",
+      image ="129033205317.dkr.ecr.eu-west-2.amazonaws.com/c19-cran-dashboard:latest",
+      essential = true,
+      portMappings = [
+        {
+          containerPort = 8501
+          hostPort      = 8501
+          protocol      = "tcp"
+        }
+      ],
+      logConfiguration = {
+                logDriver = "awslogs"
+                "options": {
+                    awslogs-group = "/ecs/c19-cran-plants-dashboard"
+                    awslogs-stream-prefix = "ecs"
+                    awslogs-create-group = "true"
+                    awslogs-stream-prefix = "ecs"
+                    awslogs-region = "eu-west-2"
+                }
+            }
+      environment= [
+        {
+          name = "AWS_ACCESS_KEY",
+          value= var.ACCESS_KEY
+        },
+        {
+          name = "AWS_SECRET_KEY",
+          value= var.SECRET_ACCESS_KEY
+        },
+        {
+          name = "DB_HOST",
+          value = var.DB_HOST
+        },
+        {
+          name = "DB_PORT",
+          value = var.DB_PORT
+        },
+        {
+          name = "DB_NAME",
+          value = var.DB_NAME
+        },
+        {
+          name = "DB_USERNAME",
+          value = var.DB_USERNAME
+        },
+        {
+          name = "DB_PASSWORD",
+          value = var.DB_PASSWORD
+        },
+        {
+          name = "S3_NAME",
+          value = var.S3_NAME
+        },
+        {
+          name = "DB_DRIVER",
+          value = var.DB_DRIVER
+        },
+        {
+          name = "ATHENA_DB",
+          value = var.ATHENA_DB
+        }
+      ]
+    }
+  ]
+  )
+  runtime_platform {
+    operating_system_family = "LINUX"
+    cpu_architecture        = "X86_64"
+  }
+}
 
 resource "aws_iam_role" "c19_cran_ecs_service_role" {
   name = "c19-cran_ecs_service_role"
@@ -261,14 +261,14 @@ resource "aws_security_group" "c19_cran_sg" {
   }
 }
 
-# resource "aws_ecs_service" "c19_cran_service" {
-#   name            = "c19_cran_service"
-#   cluster         = "arn:aws:ecs:eu-west-2:129033205317:cluster/c19-ecs-cluster"
-#   task_definition = aws_ecs_task_definition.c19-cran-plants-dashboard
-#   desired_count   = "1"
-#   network_configuration {
-#     subnets          = ["subnet-00506a8db091bdf2a", "subnet-0425a4a0b929ea507", "subnet-0e7a1e60734c4fca7"]
-#     security_groups  = [aws_security_group.c19_cran_sg]
-#     assign_public_ip = true
-#   }
-# }
+resource "aws_ecs_service" "c19_cran_service" {
+  name            = "c19_cran_service"
+  cluster         = "arn:aws:ecs:eu-west-2:129033205317:cluster/c19-ecs-cluster"
+  task_definition = aws_ecs_task_definition.c19-cran-plants-dashboard.arn
+  desired_count   = "1"
+  network_configuration {
+    subnets          = ["subnet-00506a8db091bdf2a", "subnet-0425a4a0b929ea507", "subnet-0e7a1e60734c4fca7"]
+    security_groups  = [aws_security_group.c19_cran_sg.id]
+    assign_public_ip = true
+  }
+}
