@@ -1,3 +1,4 @@
+"""Test script for the transform stage of the ETL pipeline."""
 import pytest
 import pandas as pd
 from transform import (
