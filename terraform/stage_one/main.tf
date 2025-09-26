@@ -40,14 +40,14 @@ resource "aws_ecr_repository" "c19-cran-summarise" {
   }
 }
 
-# resource "aws_ecr_repository" "c19-cran-dashboard" {
-#   name                 = "c19-cran-dashboard"
-#   image_tag_mutability = "MUTABLE"
+resource "aws_ecr_repository" "c19-cran-dashboard" {
+  name                 = "c19-cran-dashboard"
+  image_tag_mutability = "MUTABLE"
 
-#   image_scanning_configuration {
-#     scan_on_push = true
-#   }
-# }
+  image_scanning_configuration {
+    scan_on_push = true
+  }
+}
 
 
 # GLUE DB & GLUE CRAWLER

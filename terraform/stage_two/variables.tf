@@ -31,3 +31,7 @@ variable "DB_DRIVER" {
 variable "S3_NAME" {
   type = string
 }
+variable "ATHENA_DB" {
+    type= string
+  
+}
