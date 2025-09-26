@@ -2,6 +2,9 @@ import streamlit as st
 import pandas as pd
 from utils.data_cache import get_summary_data
 from utils.charts import plot_temp_vs_moisture, plot_time_series
+from dotenv import load_dotenv
+
+load_dotenv()
 
 st.set_page_config(page_title="Plant Dashboard", layout="wide")
 
