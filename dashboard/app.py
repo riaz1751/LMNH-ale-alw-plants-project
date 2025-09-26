@@ -39,6 +39,11 @@ if data_source == "Summary (S3/Athena)":
                          "Temperature Over Time"),
         use_container_width=True
     )
+    st.altair_chart(
+        plot_time_series(filtered, "average_soil_moisture",
+                         "Soil Moisture Over Time"),
+        use_container_width=True
+    )
 else:
     st.altair_chart(
         plot_time_series(filtered, "temperature",
