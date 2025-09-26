@@ -1,4 +1,6 @@
 """Test script for the transform stage of the ETL pipeline."""
+# pylint:skip-file
+
 import pytest
 import pandas as pd
 from transform import (

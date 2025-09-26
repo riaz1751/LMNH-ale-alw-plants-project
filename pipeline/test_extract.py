@@ -1,4 +1,6 @@
 """Testing the extract script."""
+# pylint:skip-file
+
 import json
 from pathlib import Path
 from datetime import datetime, timezone

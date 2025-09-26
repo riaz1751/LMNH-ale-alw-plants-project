@@ -64,7 +64,9 @@ def load_data():
         if email not in botanist_map:
             insert_db(
                 conn,
-                "INSERT INTO beta.Botanist (first_name, last_name, email, phone_number) VALUES (?, ?, ?, ?)",
+                "INSERT INTO beta.Botanist \
+                    (first_name, last_name, email, phone_number) \
+                        VALUES (?, ?, ?, ?)",
                 (row["first_name"], row["last_name"],
                  row["email"], row["phone_valid"]),
             )
@@ -85,7 +87,8 @@ def load_data():
         if (row["name"], city_id) not in plant_map:
             insert_db(
                 conn,
-                "INSERT INTO beta.Plant (plant_name, scientific_name, last_watered, city_id) VALUES (?, ?, ?, ?)",
+                "INSERT INTO beta.Plant (plant_name, scientific_name, last_watered, city_id) \
+                    VALUES (?, ?, ?, ?)",
                 (row["name"], ",".join(row["scientific_name"]),
                  row["last_watered"], city_id),
             )
@@ -105,7 +108,10 @@ def load_data():
         botanist_id = botanist_map[row["email"]]
         insert_db(
             conn,
-            "INSERT INTO beta.Reading (temperature, soil_moisture, recording_taken, plant_id, botanist_id) VALUES (?, ?, ?, ?, ?)",
+            "INSERT INTO beta.Reading \
+                (temperature, soil_moisture, recording_taken, plant_id, botanist_id)\
+                  VALUES \
+                    (?, ?, ?, ?, ?)",
             (row["temperature"], row["soil_moisture"],
              row["recording_taken"], plant_id, botanist_id),
         )
