@@ -1,7 +1,7 @@
 import streamlit as st
 import awswrangler as wr
 import pandas as pd
-from .connect_db_utils import get_connection, query_db
+from .db_utils import get_connection, query_db
 
 
 @st.cache_data
