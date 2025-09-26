@@ -18,7 +18,7 @@ for data analysis & visualisations.
 - **Engineer & Analyst**: All of the above
 
 # Architecture Diagram
-![alt text](images/architecture_diagram.png)
+![alt text](images/Architecture_Diagram.png)
 - An `ECS Fargate` service reads daily readings data from individual `API` endpoints and passes the data through an `ETL` pipeline to process data for storage.
 - An `EventBridge` cron-job triggers the `ECS Fargate` task every minute to run the pipeline for new data points.
 - The data is uploaded to an `AWS RDS` database for short term storage. 
